@@ -1,14 +1,20 @@
 import { atom, selector } from "recoil";
 
+export enum Categories {
+  "TO_DO",
+  "DOING",
+  "DONE",
+}
+
 export interface IToDo {
   text: string;
   id: number;
-  category: "TO_DO" | "DOING" | "DONE";
+  category: Categories;
 }
 
-export const categroyState = atom({
+export const categoryState = atom<Categories>({
   key: "category",
-  default: "TO_DO",
+  default: Categories.TO_DO,
 });
 
 export const toDoState = atom<IToDo[]>({
@@ -20,15 +26,8 @@ export const toDoSelector = selector({
   key: "toDoSelector",
   get: ({ get }) => {
     const toDos = get(toDoState);
-    const category = get(categroyState);
-    switch (category) {
-      case "TO_DO":
-        return toDos.filter((toDo) => toDo.category === "TO_DO");
-      case "DOING":
-        return toDos.filter((toDo) => toDo.category === "DOING");
-      case "DONE":
-        return toDos.filter((toDo) => toDo.category === "DONE");
-    }
+    const category = get(categoryState);
+    return toDos.filter((toDo) => toDo.category === category);
   },
 
   // get function이 있어야 selector 내부로 atom을 받을 수 있다.
