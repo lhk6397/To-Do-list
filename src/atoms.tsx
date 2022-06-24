@@ -6,6 +6,11 @@ export interface IToDo {
   category: "TO_DO" | "DOING" | "DONE";
 }
 
+export const categroyState = atom({
+  key: "category",
+  default: "TO_DO",
+});
+
 export const toDoState = atom<IToDo[]>({
   key: "toDo",
   default: [],
@@ -15,11 +20,15 @@ export const toDoSelector = selector({
   key: "toDoSelector",
   get: ({ get }) => {
     const toDos = get(toDoState);
-    return [
-      toDos.filter((toDo) => toDo.category === "TO_DO"),
-      toDos.filter((toDo) => toDo.category === "DOING"),
-      toDos.filter((toDo) => toDo.category === "DONE"),
-    ];
+    const category = get(categroyState);
+    switch (category) {
+      case "TO_DO":
+        return toDos.filter((toDo) => toDo.category === "TO_DO");
+      case "DOING":
+        return toDos.filter((toDo) => toDo.category === "DOING");
+      case "DONE":
+        return toDos.filter((toDo) => toDo.category === "DONE");
+    }
   },
 
   // get function이 있어야 selector 내부로 atom을 받을 수 있다.
