@@ -1,5 +1,5 @@
 import React from "react";
-import ToDoList from "./ToDoList";
+import ToDoList from "./components/ToDoList";
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
