@@ -8,6 +8,17 @@ const ToDo = ({ text, category, id }: IToDo) => {
     const {
       currentTarget: { name },
     } = event;
+    setToDos((oldToDos) => {
+      const targetIndex = oldToDos.findIndex((toDo) => toDo.id === id);
+      const oldToDo = oldToDos[targetIndex];
+      const newToDo = { text, id, category: name as any };
+      // as any는 typescript에게 타입을 체크하지 말라는 것과 같은 의미
+      return [
+        ...oldToDos.slice(0, targetIndex),
+        newToDo,
+        ...oldToDos.slice(targetIndex + 1),
+      ];
+    });
   };
 
   return (
