@@ -1,5 +1,26 @@
 import { useRecoilState } from "recoil";
+import styled from "styled-components";
 import { Categories, categoryState } from "../atoms";
+
+const Selector = styled.select`
+  background-color: transparent;
+  text-align: center;
+  width: 80%;
+  height: 50px;
+  color: ${(props) => props.theme.textColor};
+  border: 1px solid ${(props) => props.theme.textColor};
+  border-radius: 10px;
+`;
+
+const Option = styled.option`
+  background: ${(props) => props.theme.bgColor};
+  color: ${(props) => props.theme.textColor};
+  border: 1px solid ${(props) => props.theme.textColor};
+  font-size: 13px;
+  :focus {
+    border: 1px solid ${(props) => props.theme.textColor};
+  }
+`;
 
 const CategorySelector = () => {
   const [category, setCategory] = useRecoilState(categoryState);
@@ -7,11 +28,11 @@ const CategorySelector = () => {
     setCategory(event.currentTarget.value as any);
   };
   return (
-    <select value={category} onInput={onInput}>
-      <option value={Categories.TO_DO}>To Do</option>
-      <option value={Categories.DOING}>Doing</option>
-      <option value={Categories.DONE}>Done</option>
-    </select>
+    <Selector value={category} onInput={onInput}>
+      <Option value={Categories.TO_DO}>To Do</Option>
+      <Option value={Categories.DOING}>Doing</Option>
+      <Option value={Categories.DONE}>Done</Option>
+    </Selector>
   );
 };
 

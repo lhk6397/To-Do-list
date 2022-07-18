@@ -65,6 +65,21 @@ a {
   text-decoration:none;
   color:inherit;
 }
+select {
+  outline: none;
+}
+input {
+  :focus {
+    outline:none;
+  }
+  ::placeholder {
+    color: inherit;
+  }
+}
+
+li {
+  list-style: none;
+}
 `;
 
 function App() {

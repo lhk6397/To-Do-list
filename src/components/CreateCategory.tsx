@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { categoryState, toDoState } from "../atoms";
+import { Categories, categoryState, toDoState } from "../atoms";
 
-interface IToDOForm {
-  toDo: string;
+interface ICategoryForm {
+  category: string;
 }
 
 const Form = styled.form`
@@ -35,28 +35,18 @@ const Button = styled.button`
   border: 1px solid ${(props) => props.theme.textColor};
 `;
 
-function CreateToDo() {
-  const setToDos = useSetRecoilState(toDoState);
-  const category = useRecoilValue(categoryState);
-  const { register, handleSubmit, setValue } = useForm<IToDOForm>();
-  const handleValid = ({ toDo }: IToDOForm) => {
-    setToDos((oldToDos) => [
-      { text: toDo, id: Date.now(), category },
-      ...oldToDos,
-    ]);
-    setValue("toDo", "");
+function CreateCategory() {
+  const { register, handleSubmit, setValue } = useForm<ICategoryForm>();
+  const handleValid = ({ category }: ICategoryForm) => {
+    console.log(category);
+    setValue("category", "");
   };
   return (
     <Form onSubmit={handleSubmit(handleValid)}>
-      <Input
-        {...register("toDo", {
-          required: "Please write a To Do",
-        })}
-        placeholder="Write a to do"
-      />
+      <Input {...register("category")} placeholder="Add Category" />
       <Button>Add</Button>
     </Form>
   );
 }
 
-export default CreateToDo;
+export default CreateCategory;
