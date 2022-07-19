@@ -1,7 +1,7 @@
 import React from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { Categories, IToDo, toDoState } from "../atoms";
+import { categoriesState, IToDo, toDoState } from "../atoms";
 
 const ToDoItem = styled.li`
   width: 100%;
@@ -22,6 +22,7 @@ const Buttons = styled.div`
   justify-content: space-between;
   width: 35%;
   height: 100%;
+  overflow: auto;
 `;
 
 const Button = styled.button`
@@ -33,6 +34,12 @@ const Button = styled.button`
   border: 1px solid ${(props) => props.theme.textColor};
   margin-right: 5px;
   padding: 10px;
+  cursor: pointer;
+  :hover {
+    color: ${(props) => props.theme.accentColor};
+    border-color: ${(props) => props.theme.accentColor};
+    transform: translateY(3px);
+  }
   :last-child {
     color: #ef5777;
     border: 1px solid #ef5777;
@@ -40,6 +47,7 @@ const Button = styled.button`
 `;
 
 const ToDo = ({ text, category, id }: IToDo) => {
+  const categories = useRecoilValue(categoriesState);
   const setToDos = useSetRecoilState(toDoState);
   const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     const {
@@ -69,24 +77,15 @@ const ToDo = ({ text, category, id }: IToDo) => {
     <ToDoItem>
       <Span>{text}</Span>
       <Buttons>
-        {
-          // 인자를 넘기기 위해서 ()=>onClick(인자)와 같은 형태로 작성함.
-          category !== Categories.DOING && (
-            <Button name={Categories.DOING} onClick={onClick}>
-              Doing
-            </Button>
-          )
-        }
-        {category !== Categories.TO_DO && (
-          <Button name={Categories.TO_DO} onClick={onClick}>
-            To Do
-          </Button>
-        )}
-        {category !== Categories.DONE && (
-          <Button name={Categories.DONE} onClick={onClick}>
-            Done
-          </Button>
-        )}
+        {categories.map((aCategory) => {
+          if (category !== "" + { aCategory }) {
+            return (
+              <Button name={aCategory} onClick={onClick}>
+                {aCategory}
+              </Button>
+            );
+          }
+        })}
         <Button onClick={onDeleteClick}>Delete</Button>
       </Buttons>
     </ToDoItem>

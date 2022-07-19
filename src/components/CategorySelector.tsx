@@ -1,6 +1,6 @@
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { Categories, categoryState } from "../atoms";
+import { categoriesState, categoryState } from "../atoms";
 
 const Selector = styled.select`
   background-color: transparent;
@@ -10,6 +10,12 @@ const Selector = styled.select`
   color: ${(props) => props.theme.textColor};
   border: 1px solid ${(props) => props.theme.textColor};
   border-radius: 10px;
+  cursor: pointer;
+  :hover {
+    color: ${(props) => props.theme.accentColor};
+    border-color: ${(props) => props.theme.accentColor};
+    transform: translateY(3px);
+  }
 `;
 
 const Option = styled.option`
@@ -23,15 +29,19 @@ const Option = styled.option`
 `;
 
 const CategorySelector = () => {
+  const categories = useRecoilValue(categoriesState);
   const [category, setCategory] = useRecoilState(categoryState);
   const onInput = (event: React.FormEvent<HTMLSelectElement>) => {
     setCategory(event.currentTarget.value as any);
   };
   return (
     <Selector value={category} onInput={onInput}>
-      <Option value={Categories.TO_DO}>To Do</Option>
-      <Option value={Categories.DOING}>Doing</Option>
-      <Option value={Categories.DONE}>Done</Option>
+      {/* <Option value={"TO_DO"}>To Do</Option>
+      <Option value={"DOING"}>Doing</Option>
+      <Option value={"DONE"}>Done</Option> */}
+      {categories.map((aCategory) => (
+        <Option value={aCategory}>{aCategory}</Option>
+      ))}
     </Selector>
   );
 };

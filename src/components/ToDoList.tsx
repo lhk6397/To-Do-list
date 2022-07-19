@@ -1,6 +1,6 @@
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { Categories, toDoSelector } from "../atoms";
+import { toDoSelector } from "../atoms";
 import CategorySelector from "./CategorySelector";
 import CreateCategory from "./CreateCategory";
 import CreateToDo from "./CreateToDo";
@@ -11,7 +11,6 @@ const Wrapper = styled.div`
   width: 50vw;
   height: 100vh;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
 `;

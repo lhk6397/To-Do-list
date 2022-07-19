@@ -1,44 +1,19 @@
 import { useForm } from "react-hook-form";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import styled from "styled-components";
-import { Categories, categoryState, toDoState } from "../atoms";
+import { useSetRecoilState } from "recoil";
+import { categoriesState } from "../atoms";
+import { Button } from "../style/ButtonSC";
+import { Form } from "../style/FormSC";
+import { Input } from "../style/InputSC";
 
 interface ICategoryForm {
   category: string;
 }
 
-const Form = styled.form`
-  width: 80%;
-  display: flex;
-  justify-content: space-between;
-  margin: 20px 0;
-`;
-
-const Input = styled.input`
-  background-color: transparent;
-  text-align: center;
-  width: 70%;
-  height: 30px;
-  color: ${(props) => props.theme.accentColor};
-  border: 1px solid ${(props) => props.theme.textColor};
-  ::placeholder {
-    color: ${(props) => props.theme.textColor};
-  }
-`;
-
-const Button = styled.button`
-  background-color: transparent;
-  text-align: center;
-  width: 25%;
-  height: 30px;
-  color: ${(props) => props.theme.textColor};
-  border: 1px solid ${(props) => props.theme.textColor};
-`;
-
 function CreateCategory() {
+  const setCategories = useSetRecoilState(categoriesState);
   const { register, handleSubmit, setValue } = useForm<ICategoryForm>();
   const handleValid = ({ category }: ICategoryForm) => {
-    console.log(category);
+    setCategories((allCategories) => [...allCategories, category]);
     setValue("category", "");
   };
   return (
